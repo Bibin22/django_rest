@@ -1,12 +1,18 @@
 from rest_framework import serializers
 from watchlist_app.models import *
 
+
+
 class ReviewSerializer(serializers.ModelSerializer):
+    review_user = serializers.StringRelatedField(read_only=True)
     class Meta:
-        fields = "__all__"
+        model = Review
+        exclude = ('watchlist',)
+        # fields = "__all__"
 
 class WatchListSerializer(serializers.ModelSerializer):
-    reviews = ReviewSerializer(many=True, read_only=True)
+    # reviews = ReviewSerializer(many=True, read_only=True)
+    platform = serializers.CharField(source='platform.name')
     class Meta:
         model = WatchList
         fields = "__all__"
